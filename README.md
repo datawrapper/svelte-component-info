@@ -18,9 +18,9 @@ and then in a file:
 
 ```ts
 import type { SvelteInformations } from "@el3um4s/svelte-get-component-info";
-import { getInfo } from "@el3um4s/svelte-get-component-info";
+import { getInfo, readFileSvelte } from "@el3um4s/svelte-get-component-info";
 
-const info: SvelteInformations = getInfo("./src/lib/hello.svelte");
+const info: SvelteInformations = getInfo(readFileSvelte("./src/lib/hello.svelte").content.content);
 console.log(info.props); //  [{ name: "message", type: "string", defaultValue: "Hello World" }]
 console.log(info.actions); /// [ { name: "notify" }]
 ```

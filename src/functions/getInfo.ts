@@ -5,16 +5,14 @@ import { getActionInfo } from "./parseActions";
 import { getSlotInfo } from "./parseSlots";
 import { getCSSInfo } from "./parseCSS";
 
-import { Content, Prop, Action, Slot, CSS, SvelteInformations } from "./interfaces";
+import { Prop, Action, Slot, CSS, SvelteInformations } from "./interfaces";
 
-function getInfo(source: string):SvelteInformations {
-    const file:Content = readFileSvelte(source);
-    
-    const propsAsInFile = getProps_asInFile(file.content.content);
+function getInfo(source: string):SvelteInformations {    
+    const propsAsInFile = getProps_asInFile(source);
     const props:Array<Prop> = [];
     propsAsInFile.forEach(p => props.push(getPropInfo(p)));
 
-    const actionsAsInFile = getActions_asInFile(file.content.content);
+    const actionsAsInFile = getActions_asInFile(source);
     const actionsWithDuplicates:Array<Action> = [];
     actionsAsInFile.forEach(a => actionsWithDuplicates.push(getActionInfo(a)));
     const act = new Set();
@@ -24,7 +22,7 @@ function getInfo(source: string):SvelteInformations {
         return !duplicate;
     });
 
-    const slotsInFile = getSlots_asInFile(file.content.content);
+    const slotsInFile = getSlots_asInFile(source);
     const slotsWithDuplicates:Array<Slot> = [];
     slotsInFile.forEach(s => slotsWithDuplicates.push(getSlotInfo(s)));
     const slot = new Set();
@@ -34,7 +32,7 @@ function getInfo(source: string):SvelteInformations {
         return !duplicate;
     });
 
-    const cssInFile = getCSS_asInFile(file.content.content);
+    const cssInFile = getCSS_asInFile(source);
     const cssWithDuplicates:Array<CSS> = [];
     cssInFile.forEach(s => cssWithDuplicates.push(getCSSInfo(s)));
     const c = new Set();
